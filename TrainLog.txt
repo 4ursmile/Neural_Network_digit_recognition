@@ -1,0 +1,2 @@
+Time to train is: 108.89846014976501
+Accuracy on training set: 0.8801190476190476
