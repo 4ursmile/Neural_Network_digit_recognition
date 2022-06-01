@@ -4,15 +4,14 @@ import numpy as np
 import pandas as pd
 import time
 loadData = pd.read_csv('train/train.csv')
-
 data = np.array(loadData)
 m,n = data.shape
-np.random.shuffle(data)
+np.random.shuffle(data) # we dont know about data so we want to shuffle it randomly 
 
-data_Train = data[: m].T
-Y_Train = data_Train[0]
-X_Train = data_Train[1:n]
-X_Train = X_Train/255
+data_Train = data[: m].T #data (m,n) so we want it to (n,m)
+Y_Train = data_Train[0] #first row is out Y label
+X_Train = data_Train[1:n] # 1 to n is data image
+X_Train = X_Train/255 # force if to [0,1]
 
 def Init_Pram():
   W1 = np.random.rand(10, n-1)  - 0.5
