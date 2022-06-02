@@ -1,2 +1,20 @@
-Time to train is: 108.89846014976501
-Accuracy on training set: 0.8801190476190476
+
+Learning rate: 0.1
+Number of iterations: 140000
+Time to train is: 1400.0254
+Accuracy on training set: 0.9430952380952381
+
+Learning rate: 0.05
+Number of iterations: 1000
+Time to train is: 113.43584704399109
+Accuracy on training set: 0.9433571428571429
+
+Learning rate: 0.1
+Number of iterations: 2000
+Time to train is: 225.00254464149475
+Accuracy on training set: 0.9457380952380953
+
+Learning rate: 0.1
+Number of iterations: 2000
+Time to train is: 228.36044931411743
+Accuracy on training set: 0.947

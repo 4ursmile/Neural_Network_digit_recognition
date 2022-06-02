@@ -3,16 +3,16 @@ from tkinter import W
 import numpy as np
 import pandas as pd
 import time
+import os
 loadData = pd.read_csv('train/train.csv')
-
 data = np.array(loadData)
 m,n = data.shape
-np.random.shuffle(data)
+np.random.shuffle(data) # we dont know about data so we want to shuffle it randomly 
 
-data_Train = data[: m].T
-Y_Train = data_Train[0]
-X_Train = data_Train[1:n]
-X_Train = X_Train/255
+data_Train = data[: m].T #data (m,n) so we want it to (n,m)
+Y_Train = data_Train[0] #first row is out Y label
+X_Train = data_Train[1:n] # 1 to n is data image
+X_Train = X_Train/255 # force if to [0,1]
 
 def Init_Pram():
   W1 = np.random.rand(10, n-1)  - 0.5
@@ -20,6 +20,12 @@ def Init_Pram():
   #We have 10 neural in L2 is our output layer
   W2 = np.random.rand(10,10) - 0.5
   b2 = np.random.rand(10,1) - 0.5
+  return W1, b1, W2, b2
+def Reuse_Pram():
+  W1 = np.load('AfterTrainData/W1trained.npy')
+  W2 = np.load('AfterTrainData/W2trained.npy')
+  b1 = np.load('AfterTrainData/b1trained.npy')
+  b2 = np.load('AfterTrainData/b2trained.npy')
   return W1, b1, W2, b2
 def ReLU(Z):
   return np.maximum(0,Z)
@@ -67,8 +73,11 @@ def Get_Accuracy(prediction, Y):
   print(prediction,Y)
   accuracy = np.sum(prediction == Y) / Y.size
   return accuracy
-def Gradient_Descent(X, Y, alpha, number_Step):
-  W1,b1,W2,b2 = Init_Pram()
+def Gradient_Descent(X, Y, alpha, number_Step, flag):
+  if (flag):
+    W1,b1,W2,b2 = Reuse_Pram()
+  else:
+    W1,b1,W2,b2 = Init_Pram()
   for i in range(number_Step):
     Z1, A1, Z2, A2 = Forward_Propagation(X, W1, b1, W2, b2)
     dW1, db1, dW2, db2 = Back_Propagation(X,Y,Z1,A1,Z2,A2,W1,W2)
@@ -78,9 +87,17 @@ def Gradient_Descent(X, Y, alpha, number_Step):
       prediction =  Get_Prediction(A2)
       print(Get_Accuracy(prediction,Y))
   return W1,b1, W2, b2
+
+alpha = 0.1
+nStep = 2000
 time_Log = 0
-tic = time.time()
-W1, b1, W2, b2 = Gradient_Descent(X_Train, Y_Train,  0.1, 1000)
+tic = time.time()  
+if (os.path.exists('AfterTrainData/W1trained.npy') == 0):
+  W1, b1, W2, b2 = Gradient_Descent(X_Train, Y_Train,  alpha, nStep, 0)
+else:
+  W1, b1, W2, b2 = Gradient_Descent(X_Train, Y_Train,  alpha, nStep, 1)
+
+
 toc = time.time()
 time_Log = toc-tic
 print(time_Log)
@@ -96,9 +113,11 @@ accuracy_Log = np.sum(predictions==Y_Train)/Y_Train.size
 import os
 f = os.__file__
 if (os.path.exists('TrainLog.txt')):
-  f = open("TrainLog.txt", "w")
+  f = open("TrainLog.txt", "a")
 else:
   f =  open("TrainLog.txt", "x")
-f.write("Time to train is: " + str(time_Log))
+f.write("\n\nLearning rate: " + str(alpha))
+f.write("\nNumber of iterations: "+ str(nStep))
+f.write("\nTime to train is: " + str(time_Log))
 f.write("\nAccuracy on training set: "+ str(accuracy_Log))
 f.close()
