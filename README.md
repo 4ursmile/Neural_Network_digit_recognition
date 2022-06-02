@@ -35,7 +35,7 @@ In train.py file:
 
 In test.py file:
  
- +Use can run it again to re-classify image, or change input data to classify your own data.
+ +Use can run it again to re-classify image, or change input data to classify your own images.
 
 
 
