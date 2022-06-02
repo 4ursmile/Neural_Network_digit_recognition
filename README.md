@@ -19,10 +19,10 @@ use google colab and skip all the steps above
 Now, Let's get started
 
 In train.py file:
--My program can reuse data from previous trainning, so you can train again, change parameter or optimize it.
--All train information save in TrainLog.txt, so you can see information about previous trainning and of course information about your trainning
+  My program can reuse data from previous trainning, so you can train again, change parameter or optimize it.
+  All train information save in TrainLog.txt, so you can see information about previous trainning and of course information about your trainning
 In test.py file:
--Use can run it again to re classify image, or change input data to classify your own data.
+  Use can run it again to re classify image, or change input data to classify your own data.
 
 
 
