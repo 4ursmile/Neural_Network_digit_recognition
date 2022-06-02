@@ -1,5 +1,6 @@
 # Neural_Network_digit_recognition
 This project build a simple L3 Neural network for digit recognition
+
 How to use this:
 
 +You can clone or download this repo
